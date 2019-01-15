@@ -1,0 +1,84 @@
+#set($importDate = false)
+#set($importBigDecimal = false)
+#foreach ($fieldType in $fieldTypes)
+#if($fieldType=="Date")
+	#set($importDate = true)
+#end
+#if($fieldType=="BigDecimal")
+	#set($importBigDecimal = true)
+#end
+#end
+#if($importBigDecimal)
+import java.math.BigDecimal;
+#end
+#if($importDate)
+import java.util.Date;
+#end
+#if($hibernateAnnotation)
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+#end
+#if($doradoAnnotation)
+import com.bstek.dorado.annotation.PropertyDef;
+#end
+#if($baseEntity)
+import com.hrhelper.hro.framework.entity.BaseEntity;
+#end
+
+/**
+ * $tableNameComment
+ *
+ * @author
+ * @date $date
+ */
+#if($hibernateAnnotation)
+@Entity
+@Table(name = "$tableName")
+#end
+public class $entityName#if($baseEntity) extends BaseEntity#end {
+## 循环生成所有变量
+#foreach ($fieldName in $fieldNames)
+#set($index = $velocityCount - 1)
+#if(!($baseEntity && $baseEntityfields.contains($colNames.get($index))))	## 如果继承baseEntity，不生成父类属性
+
+#if($fieldAnnotation)
+  /**
+#if ($comments.get($index)=="")
+   * $colNames.get($index)
+#else
+   * $comments.get($index)
+#end   
+   */
+#end
+#if($doradoAnnotation)
+  @PropertyDef(label = "$simpleComments.get($index)")
+#end
+  private $fieldTypes.get($index) $fieldName;
+#end
+#end
+## 循环生成get set 方法
+#foreach ($fieldName in $fieldNames)
+#set($index = $velocityCount - 1)
+#if(!($baseEntity && $baseEntityfields.contains($colNames.get($index))))	## 如果继承baseEntity，不生成父类属性
+
+#if($hibernateAnnotation && $colNames.get($index)==$primary)
+  @Id
+  @GeneratedValue
+#end
+#if($hibernateAnnotation && $fieldName.toUpperCase()!=$colNames.get($index).toUpperCase())
+  @Column(name = "$colNames.get($index)")
+#end
+  public $fieldTypes.get($index) get$fieldName.substring(0,1).toUpperCase()$fieldName.substring(1)() {
+    return $fieldName;
+  }
+
+  public void set$fieldName.substring(0,1).toUpperCase()$fieldName.substring(1)($fieldTypes.get($index) $fieldName) {
+    this.$fieldName = $fieldName;
+  }
+#end  
+#end
+
+}
