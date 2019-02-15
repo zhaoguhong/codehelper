@@ -30,12 +30,12 @@
       <el-row>
           <el-col :span="6">
               <el-form-item label="jpa">
-                <el-switch v-model="form.jpa.enable"/>
+                <el-switch v-model="form.jpaEnable"/>
               </el-form-item>
           </el-col>
           <el-col :span="6">
               <el-form-item label="Column">
-                  <el-select v-model="form.jpa.column" :disabled='!form.jpa.enable' >
+                  <el-select v-model="form.column" :disabled='!form.jpaEnable' >
                     <el-option label="字段不相同时添加" :value=1 />
                     <el-option label="不符合驼峰时添加" value=2 />
                     <el-option label="全部添加" value=3 />
@@ -44,7 +44,7 @@
           </el-col>
           <el-col :span="6">
               <el-form-item label="注解位置">
-                  <el-radio-group v-model="form.jpa.inMethod" :disabled='!form.jpa.enable'>
+                  <el-radio-group v-model="form.inMethod" :disabled='!form.jpaEnable'>
                     <el-radio :label='true' >方法</el-radio>
                     <el-radio :label='false' >属性</el-radio>
                   </el-radio-group>
@@ -53,7 +53,7 @@
           
           <el-col :span="6">
               <el-form-item label="主键策略"> 
-                  <el-select v-model="form.jpa.primaryKeyStrategy" :disabled='!form.jpa.enable' placeholder='默认' clearable>
+                  <el-select v-model="form.primaryKeyStrategy" :disabled='!form.jpaEnable' placeholder='默认' clearable>
                     <el-option label="AUTO" value="AUTO"/>
                     <el-option label="IDENTITY" value="IDENTITY"/>
                     <el-option label="SEQUENCE" value="SEQUENCE"/>
@@ -96,31 +96,33 @@
         <el-button @click="onCancel">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-input v-model="content" v-if="content" type="textarea" label-width="120px"/>
+    <el-input v-model="content" v-if="content" type="textarea" :autosize="{ minRows: 4, maxRows: 22}" label-width="120px"/>
   </div>
 </template>
 
 <script>
 
 import axios from '@/utils/request'
+import { Message } from 'element-ui';
+import service from '@/utils/request'
+import { isBlank,isNotBlank,isString } from '@/utils/validate'
 
 export default {
   data() {
     return {
       form: {
         databaseName: '',
+        tableName: '',
         extendClass: '',
         packagePath: '',
         fieldAnnotation: true,
         classAnnotation: true,
         doradoAnnotation: false,
         ignoreFields: '',
-        jpa: {
-          enable: true,
-          inMethod: true,
-          column: 1,
-          primaryKeyStrategy:''
-        },
+        jpaEnable: true,
+        inMethod: true,
+        column: 1,
+        primaryKeyStrategy:'',
         lombok: {
           enable:false,
           Data: true,
@@ -130,30 +132,36 @@ export default {
           Getter: false,
           Setter: false
         },
-        lombokConfig:''
+        lombokConfig:[]
       },
       content:''
     }
   },
   methods: {
     onSubmit() {
-      var jpa = this.form.jpa;
+      var lombok = this.form.lombok;
       let lombokConfig = [];
-      if(jpa.enable){
-        for(let key in jpa){
-          if(jpa[key]){
+      if(lombok.enable){
+        for(let key in lombok){
+          if(lombok[key] && key != 'enable'){
             lombokConfig.push(key);
           }
         }
       }
-      this.form.lombokConfig = lombokConfig.join(",");
+      if(!this.form.databaseName){
+        Message.warning('数据库名称必填');
+        return;
+      }
+      if(!this.form.tableName){
+        Message.warning('表名称必填');
+        return;
+      }
+      this.form.lombokConfig = lombokConfig;
+      console.info(JSON.stringify(this.form));
       axios.post('/getEntity', this.form)
-      .then(function (response) {
-        console.log(response);
+      .then(data => {
+        this.content = data;
       })
-      .catch(function (error) {
-        console.log(error);
-      });
     },
     onCancel() {
       this.$message({

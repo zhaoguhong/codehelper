@@ -88,6 +88,19 @@ export const constantRouterMap = [
   },
 
   {
+    path: '/joinSql',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/codeHelper/joinSql'),
+        meta: { title: 'sql拼接', icon: 'form' }
+      }
+    ]
+  },
+
+  {
     path: '/generateEntity',
     component: Layout,
     children: [
