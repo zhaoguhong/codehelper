@@ -23,6 +23,7 @@ public class EntityConfigVO {
     public boolean fieldAnnotation;
     public boolean classAnnotation;
     public boolean doradoAnnotation;
+    public boolean swaggerAnnotation;
     public List<String> lombokConfig;
 
     public boolean jpaEnable;

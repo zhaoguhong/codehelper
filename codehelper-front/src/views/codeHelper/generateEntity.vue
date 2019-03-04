@@ -36,9 +36,9 @@
           <el-col :span="6">
               <el-form-item label="Column">
                   <el-select v-model="form.column" :disabled='!form.jpaEnable' >
-                    <el-option label="字段不相同时添加" :value=1 />
-                    <el-option label="不符合驼峰时添加" value=2 />
-                    <el-option label="全部添加" value=3 />
+                    <el-option label="字段不相同时添加" :value='1' />
+                    <el-option label="不符合驼峰时添加" :value='2' />
+                    <el-option label="全部添加" :value='3' />
                   </el-select>
                 </el-form-item>
           </el-col>
@@ -82,11 +82,20 @@
       
 
       <el-row>
-          <el-col :span="24">
+          <el-col :span="6">
               <el-form-item label="注释">
-                <el-checkbox v-model="form.fieldAnnotation">类注释</el-checkbox>
-                <el-checkbox v-model="form.classAnnotation">属性注释</el-checkbox>
-                <el-checkbox v-model="form.doradoAnnotation">dorado注释</el-checkbox>
+                <el-checkbox v-model="form.classAnnotation">类注释</el-checkbox>
+                <el-checkbox v-model="form.fieldAnnotation">属性注释</el-checkbox>
+              </el-form-item>
+          </el-col>
+           <el-col :span="6">
+              <el-form-item label="swagger">
+                <el-checkbox v-model="form.swaggerAnnotation">swagger注解</el-checkbox>
+              </el-form-item>
+          </el-col>
+          <el-col :span="6">
+              <el-form-item label="dorado">
+                <el-checkbox v-model="form.doradoAnnotation">dorado注解</el-checkbox>
               </el-form-item>
           </el-col>
       </el-row>
@@ -118,10 +127,11 @@ export default {
         fieldAnnotation: true,
         classAnnotation: true,
         doradoAnnotation: false,
+        swaggerAnnotation: false,
         ignoreFields: '',
         jpaEnable: true,
         inMethod: true,
-        column: 1,
+        column: 2,
         primaryKeyStrategy:'',
         lombok: {
           enable:false,

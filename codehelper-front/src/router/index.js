@@ -25,19 +25,79 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/dashboard',
+  //   name: 'Dashboard',
+  //   hidden: true,
+  //   children: [{
+  //     path: 'dashboard',
+  //     component: () => import('@/views/dashboard/index')
+  //   }]
+  // },
 
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
-    children: [{
-      path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
-    }]
+    redirect: '/generateEntity',
+    children: [
+      {
+        path: 'generateEntity',
+        name: 'Form',
+        component: () => import('@/views/codeHelper/generateEntity'),
+        meta: { title: '实体类生成', icon: 'form' }
+      }
+    ]
+  },
+  
+  {
+    path: '/sqlAssignment',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/codeHelper/sqlAssignment'),
+        meta: { title: 'sql参数赋值', icon: 'form' }
+      }
+    ]
   },
 
+  {
+    path: '/joinSql',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/codeHelper/joinSql'),
+        meta: { title: 'sql拼接', icon: 'form' }
+      }
+    ]
+  },
+
+  {
+    path: '/extend',
+    component: Layout,
+    redirect: '/example/table',
+    name: 'Example',
+    meta: { title: '扩展', icon: 'example' },
+    children: [
+      {
+        path: 'table',
+        name: 'Table',
+        component: () => import('@/views/codeHelper/regular'),
+        meta: { title: '正则速查', icon: 'table' }
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: () => import('@/views/tree/index'),
+        meta: { title: 'Tree', icon: 'tree' }
+      }
+    ]
+  },
   {
     path: '/example',
     component: Layout,
@@ -72,69 +132,6 @@ export const constantRouterMap = [
       }
     ]
   },
-
-  
-  {
-    path: '/sqlAssignment',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/codeHelper/sqlAssignment'),
-        meta: { title: 'sql参数赋值', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/joinSql',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/codeHelper/joinSql'),
-        meta: { title: 'sql拼接', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/generateEntity',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/codeHelper/generateEntity'),
-        meta: { title: '实体类生成', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/extend',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: '扩展', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/codeHelper/regular'),
-        meta: { title: '正则速查', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
   {
     path: '/nested',
     component: Layout,

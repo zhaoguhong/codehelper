@@ -27,7 +27,7 @@ hs_err_pid*
 .*
 
 target/
-
+codehelper/src/main/resources/static
 
 .DS_Store
 node_modules/
