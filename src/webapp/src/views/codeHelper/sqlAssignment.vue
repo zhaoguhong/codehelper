@@ -3,7 +3,7 @@
   <div class="app-container">
   <h3>sql	</h3>
   <el-input v-model="sql" type="textarea" :autosize="{ minRows: 4, maxRows: 6}" placeholder = "支持命名参数，占位符，例如：select * from user where id =:id" />
-  
+
   <h3>参数</h3>
   <el-input v-model="param" type="textarea" :autosize="{ minRows: 4, maxRows: 6}" placeholder="json，逗号分隔参数，mybatis 日志参数" />
   <br/><br/>
@@ -54,6 +54,9 @@ export default {
               Message.warning("参数格式有误，占位符赋值，必须是json对象格式");
               return;
           }
+          if(param.startsWith("[")&&param.endsWith("]")){
+            param = param.substring(1, param.length - 1);
+          }
           data = param.split(",");
       }
       // 如果是命名参数
@@ -75,15 +78,16 @@ export default {
           }
           var types = ["string", "datetime","timestamp","date"];
           data.forEach(function(item) {
+            item = item.toString().trim();
             // mybatis 日志参数，会包含类型，例如：460(Long)
-              if (isString(item) && item.includes("(") && item.includes(")")) {
-                  var type = item.substring(item.lastIndexOf("(") + 1, item.lastIndexOf(")")); 
+              if (item.includes("(") && item.includes(")")) {
+                  var type = item.substring(item.lastIndexOf("(") + 1, item.lastIndexOf(")"));
                   item = item.substring(0, item.lastIndexOf("("));
                   if (types.indexOf(type.toLowerCase()) != -1) {
                       item = "'" + item + "'";
                   }
               } else {
-                  if ((item)) {
+                  if (item) {
                       item = "'" + item + "'";
                   }
               }
@@ -93,7 +97,7 @@ export default {
       if (sql.includes("?")) {
           Message.warning("有参数未赋值");
       }
-      this.result = sql; 
+      this.result = sql;
     }
   }
 }

@@ -15,6 +15,11 @@ import store from './store'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import mavonEditor from 'mavon-editor' // markdown
+import 'mavon-editor/dist/css/index.css'
+
+Vue.use(mavonEditor)
+
 Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false

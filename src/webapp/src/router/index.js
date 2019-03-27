@@ -50,7 +50,7 @@ export const constantRouterMap = [
       }
     ]
   },
-  
+
   {
     path: '/sqlAssignment',
     component: Layout,
@@ -89,6 +89,16 @@ export const constantRouterMap = [
         name: 'Table',
         component: () => import('@/views/codeHelper/regular'),
         meta: { title: '正则速查', icon: 'table' }
+      },
+      {
+        path: 'sqlTemplate',
+        component: () => import('@/views/codeHelper/sqlTemplate'),
+        meta: { title: 'sql模板', icon: 'table' }
+      },
+      {
+        path: 'markdownEdit',
+        component: () => import('@/views/codeHelper/markdownEdit'),
+        meta: { title: 'markdown', icon: 'table' }
       },
       {
         path: 'tree',
