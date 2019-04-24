@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Objects;
 
 import com.google.common.collect.Lists;
-import com.zhaoguhong.panda.util.RegularUtil;
 
 /**
  * 数据库操作辅助类
