@@ -250,6 +250,11 @@ var doJoinSql = function(config) {
         // 变量判断是否为空
         sql.push(getVerify(frame, verifyEmpty, name));
         if (isMybatis) {
+            if(matchType == "like"){
+              var  bindSql = "<bind name=\"nameVariableLike\" value=\"'%' + nameVariable + '%'\">";
+              bindSql = bindSql.replace(/nameVariable/g, name);
+              sql.push("\t\t" + bindSql);
+            }
             sql.push("\t\t" + appendSql);
         } else if (frame == "springjdbc") {
             sql.push("  sql.append(\" " + appendSql + " \");");
@@ -372,7 +377,7 @@ export default {
             }
             if(isMybatis){
             	if(matchType == "like"){
-            		appendSql = "CONCAT('%',#{" + name+ "},'%')";
+                    appendSql = "#{" + name + "Like}";
             	}else{
             		appendSql = "#{" + name+ "}";
             	}
