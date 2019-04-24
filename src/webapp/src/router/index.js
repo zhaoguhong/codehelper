@@ -76,6 +76,18 @@ export const constantRouterMap = [
       }
     ]
   },
+  {
+    path: '/tool',
+    component: Layout,
+    children: [
+      {
+        path: 'tool',
+        name: 'Form',
+        component: () => import('@/views/codeHelper/tool'),
+        meta: { title: '日常小工具', icon: 'form' }
+      }
+    ]
+  },
 
   {
     path: '/extend',

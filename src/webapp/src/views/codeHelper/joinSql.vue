@@ -64,11 +64,11 @@
         prop="matchType"
         label="比较方式">
         <template slot-scope="scope">
-            <el-select  v-if="scope.row.dataType == 'String'" v-model="scope.row.matchType">
+            <el-select  v-if="scope.row.dataType == 'String'" v-model="scope.row.matchType" v-on:change="changeAppendSql(scope.$index)">
                 <el-option v-for="option in matchTypeOptions" 
                     v-bind:label="option" v-bind:value="option"/>
             </el-select>
-            <el-select v-else v-model="scope.row.matchType">
+            <el-select v-else v-model="scope.row.matchType" v-on:change="changeAppendSql(scope.$index)">
                 <el-option   v-for="option in matchTypeNumberOptions" 
                     v-bind:label="option" v-bind:value="option"/>
             </el-select>
@@ -123,7 +123,7 @@
     </div>
       </el-form>
      <div style="margin-top: 20px;">
-       <el-input v-show="showResult" v-model="sql" type="textarea" :autosize="{ minRows: 4, maxRows: 6}"/>
+       <el-input v-show="showResult" v-model="sql" type="textarea" :autosize="{ minRows: 4, maxRows: 18}"/>
     </div>
         
 
@@ -357,6 +357,7 @@ export default {
             if(dataType != 'String' && !this.verifyEmptyNumberOptions.includes(matchType)){
                 row.verifyEmpty = 3;
             }
+            this.$options.methods.changeAppendSql(index);
         },
         changeAppendSql: function(index) {
             var entity = this.parameters[index];

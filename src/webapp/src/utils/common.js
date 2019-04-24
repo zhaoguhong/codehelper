@@ -55,4 +55,4 @@ var getNextWord = function(str, word) {
 	return nextWord;
 }
 
-export { StringUtils ,ArrayUtils }
+export { StringUtils ,ArrayUtils,getNextWord ,isJSON,isArray}
