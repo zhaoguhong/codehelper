@@ -26,6 +26,7 @@ hs_err_pid*
 # 隐藏文件
 .*
 
+!.babelrc
 target/
 src/main/resources/static
 
