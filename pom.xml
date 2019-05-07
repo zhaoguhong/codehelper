@@ -166,7 +166,10 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>yarn</executable>
+              <executable>npm</executable>
+              <arguments>
+                <argument>install</argument>
+              </arguments>
               <workingDirectory>${basedir}/src/webapp</workingDirectory>
             </configuration>
           </execution>
@@ -177,8 +180,9 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>yarn</executable>
+              <executable>npm</executable>
               <arguments>
+                <argument>run</argument>
                 <argument>build</argument>
               </arguments>
               <workingDirectory>${basedir}/src/webapp</workingDirectory>
