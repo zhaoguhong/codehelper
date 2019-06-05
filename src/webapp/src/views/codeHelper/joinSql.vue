@@ -9,8 +9,8 @@
             <el-input v-model="initSql" type="textarea" :autosize="{ minRows: 4, maxRows: 6}" placeholder = "初始化sql,可以为多行" />
         </el-form-item>
     </el-row>
-       
-    
+
+
         <el-row>
           <el-col :span="6">
               <el-form-item label="框架">
@@ -65,11 +65,11 @@
         label="比较方式">
         <template slot-scope="scope">
             <el-select  v-if="scope.row.dataType == 'String'" v-model="scope.row.matchType" v-on:change="changeAppendSql(scope.$index)">
-                <el-option v-for="option in matchTypeOptions" 
+                <el-option v-for="option in matchTypeOptions"
                     v-bind:label="option" v-bind:value="option"/>
             </el-select>
             <el-select v-else v-model="scope.row.matchType" v-on:change="changeAppendSql(scope.$index)">
-                <el-option   v-for="option in matchTypeNumberOptions" 
+                <el-option   v-for="option in matchTypeNumberOptions"
                     v-bind:label="option" v-bind:value="option"/>
             </el-select>
         </template>
@@ -82,11 +82,11 @@
 
         <template slot-scope="scope">
             <el-select  v-if="scope.row.dataType == 'String'" v-model="scope.row.verifyEmpty">
-                <el-option v-for="option in verifyEmptyOptions" 
+                <el-option v-for="option in verifyEmptyOptions"
                     v-bind:label="option.label" v-bind:value="option.value"/>
             </el-select>
             <el-select v-else v-model="scope.row.verifyEmpty">
-                <el-option v-for="option in verifyEmptyNumberOptions" 
+                <el-option v-for="option in verifyEmptyNumberOptions"
                     v-bind:label="option.label" v-bind:value="option.value"/>
             </el-select>
         </template>
@@ -114,7 +114,7 @@
           @click="add(scope.$index, scope.row)">添加</el-button>
       </template>
       </el-table-column>
-    
+
     </el-table>
     <div style="margin-top: 20px;">
         <el-button type="primary" @click="reset()">重置</el-button>
@@ -125,7 +125,7 @@
      <div style="margin-top: 20px;">
        <el-input v-show="showResult" v-model="sql" type="textarea" :autosize="{ minRows: 4, maxRows: 18}"/>
     </div>
-        
+
 
 
     </div>
@@ -158,9 +158,9 @@ function getVerify(frame, verifyEmptyType, name) {
     if (frame == "springjdbc" || frame == "hibernate") {
         switch (verifyEmptyType) {
         case 1:
-            result = "StringUtils.isBlank(param)";break;
-        case 2:
-            result = "StringUtils.isEmpty(param)";break;
+            result = "StringUtils.isNotBlank(param)";break;
+       case 2:
+            result = "StringUtils.isNotEmpty(param)";break;
         case 3:
             result = "param != null";break;
         case 4:
@@ -293,7 +293,7 @@ var doJoinSql = function(config) {
             resultSql +="hdao.find(" + sqlName + ".toString(), parameters);";
         } else if (frame == "hibernate" && assignmentType == 2) {
         	resultSql +="hdao.find(" + sqlName + ".toString(), parameters.toArray());";
-        }	
+        }
     }
     sql.push(resultSql);
     return sql.join("\n")

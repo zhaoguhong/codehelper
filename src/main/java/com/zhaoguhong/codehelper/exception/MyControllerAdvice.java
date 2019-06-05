@@ -2,6 +2,7 @@ package com.zhaoguhong.codehelper.exception;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +19,7 @@ public class MyControllerAdvice {
         Map<String,Object> map  = new HashMap<String,Object>();
         map.put("code",500);
         map.put("msg",ex.getMessage());
+        map.put("stack", ExceptionUtils.getStackTrace(ex));
         //发生异常进行日志记录，写入数据库或者其他处理，此处省略
         return map;
     }

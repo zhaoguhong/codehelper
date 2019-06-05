@@ -29,7 +29,7 @@ import com.bstek.dorado.annotation.PropertyDef;
 </#list>
 <#if config.jpaEnable>
 @Entity
-@Table(name = "${tableNameComment}")
+@Table(name = "${tableName}")
 </#if>
 <#if config.swaggerAnnotation>
 @ApiModel(value="${tableNameComment}")
