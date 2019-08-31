@@ -172,7 +172,7 @@ function getVerify(frame, verifyEmptyType, name) {
     } else if (frame == "mybatis") {
         switch (verifyEmptyType) {
         case 1:
-            result = "'param != null and .trim() != \"\"'";break;
+            result = "'param != null and param.trim() != \"\"'";break;
         case 2:
             result = "param != null and param !=''";break;
         case 3:
@@ -251,7 +251,7 @@ var doJoinSql = function(config) {
         sql.push(getVerify(frame, verifyEmpty, name));
         if (isMybatis) {
             if(matchType == "like"){
-              var  bindSql = "<bind name=\"nameVariableLike\" value=\"'%' + nameVariable + '%'\">";
+              var  bindSql = "<bind name=\"nameVariableLike\" value=\"'%' + nameVariable + '%'\"/>";
               bindSql = bindSql.replace(/nameVariable/g, name);
               sql.push("\t\t" + bindSql);
             }
